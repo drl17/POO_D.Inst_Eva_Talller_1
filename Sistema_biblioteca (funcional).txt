@@ -1,0 +1,80 @@
+create database Sistema_biblioteca;
+
+use Sistema_biblioteca;
+
+create table Books (
+    Id_book INT auto_increment primary key,
+    Title VARCHAR (100) not null,
+    Author VARCHAR (100),
+    Year_publishment INT,
+    isbn BIGINT not null,
+    stock INT not null
+);
+
+CREATE TABLE Genres (
+    Id_genre INT AUTO_INCREMENT,
+    Genre VARCHAR (100) NOT NULL,
+    PRIMARY KEY (Id_genre)
+);
+
+CREATE TABLE Book_stock (
+    Id_library INT AUTO_INCREMENT,
+    Id_book INT NOT NULL,
+    Id_genre INT NOT NULL,
+    PRIMARY KEY (Id_library),
+    FOREIGN KEY (Id_book) REFERENCES Books (Id_book),
+    FOREIGN KEY (Id_genre) REFERENCES Genres (Id_genre)
+);
+
+CREATE TABLE UsersI (
+    Id_user INT AUTO_INCREMENT,
+    Name VARCHAR (100) NOT NULL,
+    Last_name VARCHAR (100) NOT NULL,
+    Dni BIGINT NOT NULL,
+    Days_lend INT NOT NULL,
+    PRIMARY KEY (Id_user, Dni, Days_lend)
+);
+
+CREATE TABLE Loanticket (
+    Id_loan INT AUTO_INCREMENT,
+    Dni BIGINT NOT NULL,
+    Id_user INT,
+    Days_lend INT NOT NULL,
+    Id_library INT,
+    PRIMARY KEY (Id_loan),
+    FOREIGN KEY (Id_user, Dni, Days_lend) REFERENCES UsersI (Id_user, Dni, Days_lend),
+    FOREIGN KEY (Id_library) REFERENCES Book_stock (Id_library)
+);
+
+INSERT into Books (Title, Author, Year_publishment, isbn, stock)
+     VALUES
+	 (	'	El Alquimista	'	,	'	Paulo Coehlo	'	,	1988	,	9774811817	,	4	),
+(	'	El Código da Vinci	'	,	'	Dan Brown	'	,	2003	,	9484181783	,	8	),
+(	'	Harry Potter	'	,	'	J. K. Rowling	'	,	1997	,	9193551749	,	8	),
+(	'	El diario de Ana Frank	'	,	'	Anna Frank	'	,	1947	,	8902921715	,	7	),
+(	'	Lo que el viento se llevo	'	,	'	Margaret Mitchell	'	,	1936	,	8612291681	,	4	),
+(	'	Don Quijote de la mancha	'	,	'	Miguel de Cervantes Saavedra	'	,	1605	,	8321661647	,	10	),
+(	'	El principito	'	,	'	Antoine e Saint-Exupéry	'	,	1943	,	8031031613	,	10	),
+(	'	Historia de dos ciudades	'	,	'	Charles Dickens	'	,	1859	,	7740401579	,	4	),
+(	'	El hobbit	'	,	'	J. R. R. Tolkien	'	,	1937	,	7449771545	,	8	),
+(	'	El señor de los anillos	'	,	'	J. R. R. Tolkien	'	,	1954	,	7159141511	,	8	)
+
+
+INSERT INTO Genres (Genre)
+VALUES ('	Novela	'),
+('	Misterio	'),
+('	Literatura Fantástica	'),
+('	Autobigrafía	'),
+('	Literatura Infantil	')
+
+INSERT INTO Book_stock (Id_book, Id_genre)
+VALUES (	1	,	1	),
+(	2	,	2	),
+(	3	,	3	),
+(	4	,	4	),
+(	5	,	1	),
+(	6	,	1	),
+(	7	,	5	),
+(	8	,	1	),
+(	9	,	3	),
+(	10	,	3	)
